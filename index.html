@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketScope — lender-ready market context in minutes</title>
+<meta name="description" content="MarketScope turns your project inputs into a structured, lender-ready market analysis — demographics, demand, comps, absorption — and folds in your PermitPath timeline and CapStack capital stack with one pasted link.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101720'/%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='%2360a5fa' stroke-width='2.4'/%3E%3Cline x1='19' y1='19' x2='25' y2='25' stroke='%23f59e0b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#101720">
+<link rel="manifest" href='data:application/manifest+json,{"name":"MarketScope","short_name":"MarketScope","start_url":".","display":"standalone","background_color":"%23101720","theme_color":"%23101720","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27110%27 fill=%27%23101720%27/%3E%3Ccircle cx=%27224%27 cy=%27224%27 r=%27110%27 fill=%27none%27 stroke=%27%2360a5fa%27 stroke-width=%2738%27/%3E%3Cline x1=%27305%27 y1=%27305%27 x2=%27400%27 y2=%27400%27 stroke=%27%23f59e0b%27 stroke-width=%2748%27 stroke-linecap=%27round%27/%3E%3C/svg%3E","sizes":"any","type":"image/svg+xml"}]}'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MarketScope">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+const GA_ID="G-VY7NE24J3M";
+if(GA_ID){const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',GA_ID);}
+</script>
+<style>
+:root{--bg:#0f151d;--panel:#131b24;--card:#18222d;--line:#243140;--ink:#e9eef4;--dim:#95a5b5;--faint:#5e7080;
+--blue:#60a5fa;--amber:#f59e0b;--green:#34d399;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55}
+h1,h2,h3,h4{margin:0}
+button,input,select,textarea{font-family:inherit}
+a{color:var(--blue)}
+header{position:sticky;top:0;z-index:40;height:58px;display:flex;align-items:center;gap:12px;padding:0 16px;background:linear-gradient(180deg,#131c27,#0f151d);border-bottom:1px solid var(--line)}
+header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.5),rgba(245,158,11,.5),transparent)}
+#logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px;letter-spacing:-.02em}
+#logo b{color:var(--blue)}
+.hsp{flex:1}
+.pill{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:var(--dim);background:var(--card);cursor:pointer}
+.pill.pro{background:linear-gradient(90deg,#f59e0b,#fb923c);color:#221a03;border:none;font-weight:700}
+.pill.prodone{background:rgba(52,211,153,.15);color:var(--green);border-color:rgba(52,211,153,.4)}
+.tagline{background:linear-gradient(120deg,rgba(96,165,250,.09),rgba(245,158,11,.06));border-bottom:1px solid var(--line);padding:18px 16px;text-align:center}
+.tagline h1{font-family:Fraunces,serif;font-size:clamp(20px,3.4vw,28px)}
+.tagline h1 em{font-style:italic;color:var(--blue)}
+.tagline p{color:var(--dim);font-size:13.5px;margin:6px auto 0;max-width:78ch}
+#app{display:grid;grid-template-columns:430px 1fr;max-width:1320px;margin:0 auto;align-items:start}
+#inputs{padding:20px 18px 60px;border-right:1px solid var(--line)}
+#out{padding:20px 22px 90px;min-width:0}
+@media(max-width:920px){#app{grid-template-columns:1fr}#inputs{border-right:none;border-bottom:1px solid var(--line)}}
+.lbl{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:15px 0 6px}
+.lbl a{font-weight:500;text-transform:none;letter-spacing:0;font-size:11px}
+.tin,textarea.tin,select.tin{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:11px 13px;font-size:14px;outline:none}
+.tin:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(96,165,250,.12)}
+textarea.tin{min-height:64px;resize:vertical}
+.row2{display:flex;gap:8px}.row2>*{flex:1}
+.segrow{display:flex;gap:7px;flex-wrap:wrap}
+.seg{flex:1;min-width:78px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--dim);font-size:12px;font-weight:600;padding:9px 5px;cursor:pointer;text-align:center}
+.seg.on{background:linear-gradient(92deg,var(--blue),#3b82f6);border-color:transparent;color:#0a1220}
+.comp{display:grid;grid-template-columns:2fr 1fr 1fr 34px;gap:6px;margin-bottom:6px}
+.comp input{background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:8px 9px;font-size:12.5px;outline:none}
+.comp button{background:none;border:none;color:var(--faint);cursor:pointer;font-size:15px}
+.addc{background:none;border:1px dashed var(--line);border-radius:11px;color:var(--dim);width:100%;padding:9px;font-size:12.5px;font-weight:600;cursor:pointer}
+.mini{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.5}
+#buildBtn{width:100%;border:none;border-radius:13px;padding:14px;font-size:16px;font-weight:700;color:#0a1220;background:linear-gradient(92deg,var(--blue),#3b82f6);cursor:pointer;margin-top:16px;box-shadow:0 6px 18px -6px rgba(96,165,250,.4)}
+
+/* report */
+#report{background:#fdfcf9;color:#1c2430;border-radius:16px;padding:34px 36px;box-shadow:0 20px 50px rgba(0,0,0,.35);position:relative;font-size:14px;line-height:1.6}
+#report h2{font-family:Fraunces,serif;font-size:24px;color:#152032}
+#report h3{font-family:Fraunces,serif;font-size:16.5px;margin:24px 0 8px;padding-bottom:5px;border-bottom:2px solid #e6e0d2;color:#152032}
+#report .meta{font-size:12px;color:#6b7280;margin-top:4px}
+#report table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0}
+#report th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;padding:6px 8px;border-bottom:1.5px solid #d8d2c2}
+#report td{padding:6px 8px;border-bottom:1px solid #eee7d8}
+#report .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+#report .kv div{background:#f4f0e6;border-radius:10px;padding:10px 12px}
+#report .kv b{display:block;font-size:17px;font-family:Fraunces,serif;color:#152032}
+#report .kv span{font-size:10.5px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
+#report .note{font-size:11px;color:#8a8272;font-style:italic}
+#report .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;overflow:hidden}
+#report .wm span{font-size:64px;font-weight:800;color:rgba(200,60,60,.09);transform:rotate(-28deg);letter-spacing:.15em;white-space:nowrap}
+.lockedsec{border:1.5px dashed #d8b98a;background:#faf4e8;border-radius:12px;padding:16px;margin:14px 0;color:#8a6430;font-size:13px}
+.lockedsec b{color:#b06a2a}
+.lockbtn{display:inline-block;margin-top:8px;background:linear-gradient(90deg,#f59e0b,#fb923c);color:#221a03;font-weight:700;font-size:13px;border:none;border-radius:999px;padding:9px 16px;cursor:pointer;text-decoration:none}
+.rowbtns{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.smallbtn{background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-weight:600;font-size:13px;padding:10px 16px;cursor:pointer}
+.disc{font-size:11.5px;color:var(--faint);line-height:1.6;margin-top:18px}
+#modal{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:rgba(3,7,12,.72)}
+#modal.on{display:grid}
+#mcard{width:min(94vw,460px);max-height:86vh;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+#mcard h2{font-family:Fraunces,serif;font-size:21px;margin-bottom:8px}
+#mcard p{font-size:13.5px;color:var(--dim)}
+.closex{float:right;background:none;border:none;color:var(--faint);font-size:22px;cursor:pointer}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(90px);background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:600;z-index:90;transition:transform .25s}
+#toast.on{transform:translateX(-50%) translateY(0)}
+footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
+@media print{
+  header,.tagline,#inputs,.rowbtns,.lockedsec,footer,.disc{display:none!important}
+  body{background:#fff}
+  #app{display:block}#out{padding:0}
+  #report{box-shadow:none;border-radius:0;padding:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div id="logo"><svg width="26" height="26" viewBox="0 0 32 32"><circle cx="14" cy="14" r="8" fill="none" stroke="#60a5fa" stroke-width="2.6"/><line x1="20" y1="20" x2="26" y2="26" stroke="#f59e0b" stroke-width="3.2" stroke-linecap="round"/></svg> Market<b>Scope</b></div>
+  <div class="hsp"></div>
+  <button class="pill pro" id="proBtn">Go Pro</button>
+</header>
+
+<div class="tagline">
+  <h1>Lender-ready market context, <em>in minutes.</em></h1>
+  <p>Answer the questions a lender will ask — demographics, demand, comps, absorption — and MarketScope assembles a clean, structured market analysis. Paste your <a href="https://nesoai.github.io/permitpath/" target="_blank" rel="noopener">PermitPath</a> and <a href="https://nesoai.github.io/capstack/" target="_blank" rel="noopener">CapStack</a> share-links and your entitlement timeline and capital stack fold straight into the report.</p>
+</div>
+
+<div id="app">
+  <div id="inputs">
+    <label class="lbl">Project name</label>
+    <input class="tin" id="pname" placeholder="e.g. Meridian Flats" value="">
+    <div class="row2">
+      <div><label class="lbl">City / county</label><input class="tin" id="ploc" placeholder="Fairview, Davidson County"></div>
+      <div><label class="lbl">State</label><input class="tin" id="pstate" placeholder="TN"></div>
+    </div>
+    <label class="lbl">Project type</label>
+    <div class="segrow" id="typeRow"></div>
+    <div class="row2">
+      <div><label class="lbl">Size (units or SF)</label><input class="tin" id="psize" placeholder="120 units"></div>
+      <div><label class="lbl">Total dev cost ($)</label><input class="tin" id="ptdc" type="number" placeholder="18000000"></div>
+    </div>
+
+    <label class="lbl">Market data <a href="https://www.census.gov/quickfacts/" target="_blank" rel="noopener">Census QuickFacts ↗</a> · <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED ↗</a> · <a href="https://www.bls.gov/eag/" target="_blank" rel="noopener">BLS ↗</a></label>
+    <div class="row2">
+      <input class="tin" id="mpop" type="number" placeholder="Population (county/metro)">
+      <input class="tin" id="mgrow" type="number" step="0.1" placeholder="Pop growth %/yr">
+    </div>
+    <div class="row2" style="margin-top:8px">
+      <input class="tin" id="minc" type="number" placeholder="Median HH income ($)">
+      <input class="tin" id="mvac" type="number" step="0.1" placeholder="Market vacancy %">
+    </div>
+    <label class="lbl">Major employers / demand drivers</label>
+    <textarea class="tin" id="mjobs" placeholder="e.g. Regional hospital (3,200 jobs), new EV plant (2026, 1,800 jobs), state university…"></textarea>
+
+    <label class="lbl">Comparables (name · $/unit-mo or $/SF · occupancy %)</label>
+    <div id="comps"></div>
+    <button class="addc" id="addComp">＋ Add comparable</button>
+
+    <label class="lbl">Fold in your other Boundless runs (optional)</label>
+    <input class="tin" id="ppLink" placeholder="Paste a PermitPath share link…">
+    <input class="tin" id="csLink" placeholder="Paste a CapStack share link…" style="margin-top:8px">
+
+    <label class="lbl">Key risks you already see</label>
+    <div class="segrow" id="riskRow"></div>
+
+    <label class="lbl">Prepared by</label>
+    <input class="tin" id="pby" placeholder="Your name / company">
+
+    <button id="buildBtn">Build the analysis →</button>
+    <p class="mini">A structured framework with your data in a lender-familiar format — you supply and verify the numbers; MarketScope supplies the structure, math, and polish. Not an appraisal or feasibility study.</p>
+  </div>
+
+  <div id="out">
+    <div id="report"></div>
+    <div class="rowbtns">
+      <button class="smallbtn" id="printBtn">🖨 Print / save as PDF ${''}</button>
+      <button class="smallbtn" id="shareBtn">🔗 Share inputs</button>
+    </div>
+    <p class="disc"><b>Read this:</b> MarketScope organizes user-supplied data into a lender-familiar structure. It is not an appraisal, feasibility study, or investment advice — verify every figure against its source, and expect lenders to require third-party studies for large credits. Done-for-you deep-dive research: <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless market research, $600–$2,500</a>.</p>
+  </div>
+</div>
+
+<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.0 · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
+<div id="modal"><div id="mcard"><button class="closex" id="mClose">×</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
+<div id="toast"></div>
+
+<script>
+/* ============ MARKETSCOPE v1.0 — config ============ */
+const BUY_URL="mailto:boundless.mbf@gmail.com?subject="+encodeURIComponent("Requesting MarketScope Pro ($19)")+"&body="+encodeURIComponent("Hi Boundless — I'd like MarketScope Pro. Please send my unlock code and how to pay."); // ← swap for Gumroad when live
+const PRICE_TXT="$19 one-time";
+
+const $=id=>document.getElementById(id);
+const KEY='marketscope.v1';
+let S=Object.assign({pro:false},(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})());
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove('on'),2600)}
+const fm=n=>'$'+Math.round(n).toLocaleString('en-US');
+const nz=v=>{const n=parseFloat(v);return isNaN(n)?null:n;};
+
+const TYPES=[['mf','🏢 Multifamily'],['sf','🏠 Single-family'],['com','🛍 Commercial'],['ind','🏭 Industrial'],['mix','🌆 Mixed-use'],['util','⚡ Utility/energy']];
+let TYPE='mf';
+$('typeRow').innerHTML=TYPES.map(t=>`<button class="seg ${t[0]===TYPE?'on':''}" data-v="${t[0]}">${t[1]}</button>`).join('');
+$('typeRow').querySelectorAll('.seg').forEach(b=>b.onclick=()=>{TYPE=b.dataset.v;$('typeRow').querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',x===b));});
+
+const RISKS=[['rate','Interest-rate risk'],['supply','New supply pipeline'],['season','Seasonal / single-employer economy'],['ent','Entitlement uncertainty'],['cost','Construction-cost escalation'],['absorb','Slow absorption'],['env','Environmental / site'],['flood','Flood / insurance costs']];
+let RSEL=new Set(['rate','cost']);
+$('riskRow').innerHTML=RISKS.map(r=>`<button class="seg ${RSEL.has(r[0])?'on':''}" data-v="${r[0]}" style="flex:none;min-width:0;padding:8px 11px">${r[1]}</button>`).join('');
+$('riskRow').querySelectorAll('.seg').forEach(b=>b.onclick=()=>{const k=b.dataset.v;RSEL.has(k)?RSEL.delete(k):RSEL.add(k);b.classList.toggle('on');});
+
+let COMPS=[['','',''],['','',''],['','','']];
+function renderComps(){
+  const max=S.pro?10:4;
+  $('comps').innerHTML=COMPS.slice(0,max).map((c,i)=>`<div class="comp">
+    <input placeholder="Comp name" value="${c[0]}" data-i="${i}" data-f="0">
+    <input placeholder="$/mo or $/SF" value="${c[1]}" data-i="${i}" data-f="1">
+    <input placeholder="Occ %" value="${c[2]}" data-i="${i}" data-f="2">
+    <button data-x="${i}">✕</button></div>`).join('');
+  $('comps').querySelectorAll('input').forEach(x=>x.oninput=()=>{COMPS[+x.dataset.i][+x.dataset.f]=x.value;});
+  $('comps').querySelectorAll('button').forEach(x=>x.onclick=()=>{COMPS.splice(+x.dataset.x,1);renderComps();});
+}
+$('addComp').onclick=()=>{
+  const max=S.pro?10:4;
+  if(COMPS.length>=max)return openPro(S.pro?'Ten comps is the ceiling.':'Free holds 4 comparables — Pro holds 10.');
+  COMPS.push(['','','']);renderComps();
+};
+renderComps();
+
+/* ---- decode sibling-tool share links ---- */
+function b64d(x){x=x.replace(/-/g,'+').replace(/_/g,'/');while(x.length%4)x+='=';return JSON.parse(decodeURIComponent(escape(atob(x))));}
+function parsePP(url){try{const h=url.split('#s=')[1];if(!h)return null;const p=b64d(h);
+  return p&&p.st?{st:p.st,ty:p.ty,co:p.co||'',j:p.j||''}:null;}catch(e){return null;}}
+function parseCS(url){try{const h=url.split('#s=')[1];if(!h)return null;const p=b64d(h);
+  return p&&p.t?{tdc:p.t,noi:p.n,prof:p.p,sources:p.o||[]}:null;}catch(e){return null;}}
+
+/* ---- Pro ---- */
+function checkCode(c){c=(c||'').trim().toUpperCase();
+  if(!/^MKT-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c))return false;
+  const b=c.replace(/[^A-Z0-9]/g,'').slice(3);let t=0;for(const ch of b)t+=ch.charCodeAt(0);
+  return t%41===17;}
+function openModal(t,b){$('mTitle').textContent=t;$('mBody').innerHTML=b;$('modal').classList.add('on');}
+$('mClose').onclick=()=>$('modal').classList.remove('on');
+$('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('on');};
+function openPro(msg){
+  openModal('MarketScope Pro',`<p>${msg||'One unlock, yours forever on this device:'}</p>
+   <ul style="color:var(--dim);font-size:13.5px;line-height:1.9;padding-left:18px;margin:8px 0 14px">
+     <li>The full report: demand analysis, absorption &amp; pricing, entitlement + capital-stack sections, risks &amp; mitigants</li>
+     <li>No DRAFT watermark — submission-clean print</li>
+     <li>10 comparables (free: 4)</li></ul>
+   <a class="lockbtn" href="${BUY_URL}" target="_blank" rel="noopener">Request Pro — ${PRICE_TXT} →</a>
+   <div style="display:flex;gap:8px;margin-top:14px"><input class="tin" id="codeIn" placeholder="MKT-XXXX-XXXX" style="flex:1">
+   <button class="lockbtn" id="applyCode" style="background:var(--green);color:#04211a;margin:0">Apply</button></div>`);
+  $('applyCode').onclick=()=>{
+    if(checkCode($('codeIn').value)){S.pro=true;save();proUI();$('modal').classList.remove('on');toast('🎉 Pro unlocked');renderComps();build();}
+    else toast('That code doesn\u2019t look right');};
+}
+function proUI(){$('proBtn').textContent=S.pro?'✓ Pro':'Go Pro';$('proBtn').className='pill '+(S.pro?'prodone':'pro');}
+$('proBtn').onclick=()=>S.pro?toast('Pro is active on this device ✓'):openPro();
+
+/* ---- report ---- */
+function lock(title,teaser){return `<div class="lockedsec"><b>🔒 ${title} — Pro section.</b> ${teaser} <button class="lockbtn" onclick="openPro()">Unlock — ${PRICE_TXT}</button></div>`;}
+function build(){
+  const name=$('pname').value.trim()||'Untitled Project';
+  const loc=[$('ploc').value.trim(),$('pstate').value.trim()].filter(Boolean).join(', ')||'Location TBD';
+  const size=$('psize').value.trim(), tdc=nz($('ptdc').value);
+  const pop=nz($('mpop').value), grow=nz($('mgrow').value), inc=nz($('minc').value), vac=nz($('mvac').value);
+  const jobs=$('mjobs').value.trim();
+  const typ=TYPES.find(t=>t[0]===TYPE)[1].slice(2);
+  const by=$('pby').value.trim()||'Prepared with MarketScope';
+  const pp=parsePP($('ppLink').value.trim()), cs=parseCS($('csLink').value.trim());
+  const comps=COMPS.filter(c=>c[0]).slice(0,S.pro?10:4);
+  const rents=comps.map(c=>nz(c[1])).filter(x=>x!=null);
+  const occs=comps.map(c=>nz(c[2])).filter(x=>x!=null);
+  const avgRent=rents.length?rents.reduce((a,b)=>a+b,0)/rents.length:null;
+  const avgOcc=occs.length?occs.reduce((a,b)=>a+b,0)/occs.length:null;
+
+  let h='';
+  if(!S.pro)h+=`<div class="wm"><span>DRAFT — FREE TIER</span></div>`;
+  h+=`<h2>Market Analysis: ${name}</h2>
+  <div class="meta">${typ} · ${loc}${size?' · '+size:''}${tdc?' · TDC '+fm(tdc):''} · ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} · ${by}</div>`;
+
+  // 1 exec summary
+  h+=`<h3>1 · Executive summary</h3><p>${name} is a proposed ${typ.toLowerCase()} development in ${loc}. `+
+   (pop?`The trade area holds a population of ${pop.toLocaleString()}${grow!=null?' growing at approximately '+grow+'% annually':''}${inc?', with a median household income of '+fm(inc):''}. `:'Trade-area demographics are summarized below. ')+
+   (avgRent?`Surveyed comparables average ${TYPE==='mf'||TYPE==='sf'?fm(avgRent)+'/month':'$'+avgRent.toFixed(2)+'/SF'}${avgOcc?' at '+avgOcc.toFixed(1)+'% occupancy':''}, indicating ${avgOcc&&avgOcc>=93?'a tight market with demonstrated demand':'measurable existing demand'}. `:'')+
+   (pp?`Entitlement risk has been modeled (see §6). `:'')+(cs?`A capital stack has been assembled (see §7). `:'')+
+   `This analysis organizes market context in the structure lenders expect; all figures are user-supplied from the cited public sources.</p>`;
+
+  // 2 demographics
+  h+=`<h3>2 · Location &amp; demographics</h3><div class="kv">
+   <div><b>${pop?pop.toLocaleString():'—'}</b><span>Population</span></div>
+   <div><b>${grow!=null?grow+'%/yr':'—'}</b><span>Growth rate</span></div>
+   <div><b>${inc?fm(inc):'—'}</b><span>Median HH income</span></div>
+   <div><b>${vac!=null?vac+'%':'—'}</b><span>Market vacancy</span></div></div>
+   ${jobs?`<p><b>Demand drivers:</b> ${jobs}</p>`:''}
+   <p class="note">Sources: U.S. Census QuickFacts / ACS; BLS local area statistics; FRED regional series — as entered by preparer.</p>`;
+
+  // 3 demand (Pro)
+  if(S.pro){
+    const rentAfford=inc?fm(inc*0.30/12):null;
+    h+=`<h3>3 · Demand analysis</h3><p>`+
+     (TYPE==='mf'?`At the standard 30%-of-income affordability threshold, the median household supports ${rentAfford||'—'} in monthly rent${avgRent?` versus a surveyed average of ${fm(avgRent)}`:''} — ${inc&&avgRent?(inc*0.30/12>=avgRent?'indicating the median household can absorb market rents.':'suggesting positioning below the comp average or targeting above-median segments.'):''} `:'')+
+     (grow!=null&&pop?`Population growth of ${grow}%/yr implies roughly ${Math.round(pop*grow/100).toLocaleString()} net new residents annually (~${Math.round(pop*grow/100/2.5).toLocaleString()} households at 2.5 persons/HH), a directional proxy for incremental ${TYPE==='mf'?'rental':'space'} demand. `:'Add population and growth figures to compute the incremental-household proxy. ')+
+     `${vac!=null?(vac<=5?'Market vacancy of '+vac+'% signals undersupply.':vac<=8?'Vacancy of '+vac+'% indicates broad balance.':'Vacancy of '+vac+'% argues for conservative lease-up assumptions.'):''}</p>`;
+  }else h+=lock('Demand analysis','Affordability math, incremental-household demand proxy, and vacancy interpretation.');
+
+  // 4 comps
+  h+=`<h3>4 · Supply &amp; comparables</h3>`;
+  if(comps.length){
+    h+=`<table><tr><th>Comparable</th><th>${TYPE==='mf'||TYPE==='sf'?'Rent / price':'$/SF'}</th><th>Occupancy</th></tr>`+
+      comps.map(c=>`<tr><td>${c[0]}</td><td>${c[1]||'—'}</td><td>${c[2]?c[2]+'%':'—'}</td></tr>`).join('')+
+      (avgRent?`<tr><td><b>Average</b></td><td><b>${TYPE==='mf'||TYPE==='sf'?fm(avgRent):'$'+avgRent.toFixed(2)}</b></td><td><b>${avgOcc?avgOcc.toFixed(1)+'%':'—'}</b></td></tr>`:'')+`</table>`;
+  }else h+=`<p class="note">Add comparables in the left panel — 3–6 relevant properties is the lender sweet spot.</p>`;
+
+  // 5 absorption (Pro)
+  if(S.pro){
+    const units=nz(size);
+    h+=`<h3>5 · Absorption &amp; pricing posture</h3><p>`+
+     (units&&TYPE==='mf'?`At a market-typical 8–15 units/month lease-up for well-located product, ${units} units implies a ${Math.ceil(units/15)}–${Math.ceil(units/8)} month stabilization window; carry and reserves should be sized to the slower case. `:'')+
+     (avgRent?`Recommended posture: enter at or ~2–3% below the ${fm(avgRent)} comp average with concessions held in reserve, rather than leading the market on face rent. `:'Enter pricing versus the comp average once comps are loaded. ')+
+     `${vac!=null&&vac<=5?'Tight vacancy supports minimal concessions.':'Budget one month of concessions per year one in the model.'}</p>`;
+  }else h+=lock('Absorption & pricing','Stabilization-window math and pricing posture versus your comp set.');
+
+  // 6 entitlement (Pro, from PermitPath)
+  if(S.pro){
+    h+=`<h3>6 · Entitlement &amp; timeline</h3>`+
+     (pp?`<p>Modeled in PermitPath for ${pp.co?pp.co+', ':''}${pp.st}${pp.j?' ('+pp.j+' jurisdiction)':''}: the sequenced gate analysis, statutory shot-clock context, and carrying-cost sensitivity accompany this report. <span class="note">Attach the PermitPath exhibit; regenerate anytime at nesoai.github.io/permitpath.</span></p>`
+        :`<p class="note">Paste a PermitPath share-link in the left panel to fold the entitlement timeline into this section — or state the permitting status and expected approvals path here.</p>`);
+  }else h+=lock('Entitlement & timeline','Folds your PermitPath run — gates, months, carrying cost — into the report.');
+
+  // 7 capital stack (Pro, from CapStack)
+  if(S.pro){
+    h+=`<h3>7 · Capital stack summary</h3>`+
+     (cs?`<p>Assembled in CapStack: total development cost of ${fm(cs.tdc)}${cs.noi?' against stabilized NOI of '+fm(cs.noi)+'/yr':''}, layering ${cs.sources.length} sources (${cs.sources.join(', ')}). <span class="note">Attach the CapStack lender exhibit; regenerate at nesoai.github.io/capstack.</span></p>`
+        :`<p class="note">Paste a CapStack share-link in the left panel to summarize your sources &amp; uses here — lenders read market context and capital plan together.</p>`);
+  }else h+=lock('Capital stack summary','Folds your CapStack run — sources, gap status, blended cost — into the report.');
+
+  // 8 risks (Pro)
+  const RTXT={rate:['Interest-rate risk','model +150bps stress; rate-cap or resize provisions'],supply:['New supply pipeline','inventory permits/starts within 3 miles; phase or pre-lease'],season:['Concentrated economy','underwrite to the anchor employer\u2019s cycle; diversify tenancy'],ent:['Entitlement uncertainty','pre-application meetings; concurrent processing (see PermitPath playbooks)'],cost:['Construction-cost escalation','GMP contracts, early buyout of volatile trades, 5–8% hard-cost contingency'],absorb:['Slow absorption','size lease-up reserves to the slow case; concession budget'],env:['Environmental / site','Phase I during diligence; wetlands delineation before design freeze'],flood:['Flood & insurance','elevation certificates early; quote insurance before closing, not after']};
+  if(S.pro){
+    h+=`<h3>8 · Risks &amp; mitigants</h3><table><tr><th>Risk</th><th>Mitigant</th></tr>`+
+      [...RSEL].map(k=>`<tr><td>${RTXT[k][0]}</td><td>${RTXT[k][1]}</td></tr>`).join('')+`</table>`;
+  }else h+=lock('Risks & mitigants','A lender-style risk register built from the risks you flagged, each with a mitigation.');
+
+  // 9 sources
+  h+=`<h3>${S.pro?'9':'5'} · Methodology &amp; sources</h3><p class="note">Structure by MarketScope (Boundless). All market figures supplied by the preparer from public sources (Census/ACS, BLS, FRED, local records) and comparable surveys; verify before submission. This document is market context, not an appraisal or feasibility study. Companion analyses: PermitPath (entitlement timeline &amp; carry) and CapStack (capital stack) — nesoai.github.io/learning-studio.</p>`;
+
+  $('report').innerHTML=h;
+}
+$('buildBtn').onclick=()=>{build();$('report').scrollIntoView({behavior:'smooth',block:'start'});};
+$('printBtn').onclick=()=>{ if(!S.pro)return openPro('Clean, watermark-free printing is a Pro feature — the free draft prints with its watermark.'); build(); window.print(); };
+$('shareBtn').onclick=async()=>{
+  const p={n:$('pname').value,l:$('ploc').value,s:$('pstate').value,t:TYPE,z:$('psize').value,d:$('ptdc').value,
+    mp:$('mpop').value,mg:$('mgrow').value,mi:$('minc').value,mv:$('mvac').value,mj:$('mjobs').value,
+    c:COMPS,r:[...RSEL],pp:$('ppLink').value,cs:$('csLink').value,b:$('pby').value};
+  const url=location.origin+location.pathname+'#s='+btoa(unescape(encodeURIComponent(JSON.stringify(p)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  try{if(navigator.share)await navigator.share({title:'MarketScope inputs',url});else{await navigator.clipboard.writeText(url);toast('🔗 Link copied');}}catch(e){try{await navigator.clipboard.writeText(url);toast('🔗 Link copied');}catch(_){}}
+};
+(function(){ // load shared
+  if(!location.hash.startsWith('#s='))return;
+  try{const p=b64d(location.hash.slice(3));
+    $('pname').value=p.n||'';$('ploc').value=p.l||'';$('pstate').value=p.s||'';TYPE=p.t||'mf';
+    $('psize').value=p.z||'';$('ptdc').value=p.d||'';$('mpop').value=p.mp||'';$('mgrow').value=p.mg||'';
+    $('minc').value=p.mi||'';$('mvac').value=p.mv||'';$('mjobs').value=p.mj||'';
+    if(p.c)COMPS=p.c; if(p.r)RSEL=new Set(p.r);
+    $('ppLink').value=p.pp||'';$('csLink').value=p.cs||'';$('pby').value=p.b||'';
+    $('typeRow').querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',x.dataset.v===TYPE));
+    $('riskRow').querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',RSEL.has(x.dataset.v)));
+    renderComps();toast('Loaded shared inputs');
+  }catch(e){}
+})();
+proUI();build();
+</script>
+</body>
+</html>
