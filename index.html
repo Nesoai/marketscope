@@ -91,6 +91,12 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
   #app{display:block}#out{padding:0}
   #report{box-shadow:none;border-radius:0;padding:0}
 }
+
+.import-box{background:linear-gradient(120deg,rgba(96,165,250,.14),rgba(52,211,153,.07));border:1px solid rgba(96,165,250,.45);border-radius:14px;padding:14px;margin-bottom:16px}
+.import-h{font-size:13.5px;font-weight:700;color:var(--ink)}
+.import-h span{display:block;font-weight:400;color:var(--dim);font-size:12px;margin:3px 0 9px}
+.lbl .sub{display:inline-block;font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint);font-size:11px;margin-left:3px}
+.tmpl{background:none;border:none;color:var(--blue);font:inherit;font-size:12px;cursor:pointer;padding:7px 0 0;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -107,6 +113,11 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
 
 <div id="app">
   <div id="inputs">
+    <div class="import-box">
+      <div class="import-h">⚡ Already used our tools?<span>Paste your PermitPath &amp; CapStack links to autofill half the report.</span></div>
+      <input class="tin" id="ppLink" placeholder="Paste a PermitPath share link…">
+      <input class="tin" id="csLink" placeholder="Paste a CapStack share link…" style="margin-top:8px">
+    </div>
     <label class="lbl">Project name</label>
     <input class="tin" id="pname" placeholder="e.g. Meridian Flats" value="">
     <div class="row2">
@@ -120,7 +131,7 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
       <div><label class="lbl">Total dev cost ($)</label><input class="tin" id="ptdc" type="number" placeholder="18000000"></div>
     </div>
 
-    <label class="lbl">Market data <a href="https://www.census.gov/quickfacts/" target="_blank" rel="noopener">Census QuickFacts ↗</a> · <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED ↗</a> · <a href="https://www.bls.gov/eag/" target="_blank" rel="noopener">BLS ↗</a></label>
+    <label class="lbl">What’s the market like? <span class="sub">demographics</span> &middot; <a href="https://www.census.gov/quickfacts/" target="_blank" rel="noopener">Census QuickFacts ↗</a> · <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED ↗</a> · <a href="https://www.bls.gov/eag/" target="_blank" rel="noopener">BLS ↗</a></label>
     <div class="row2">
       <input class="tin" id="mpop" type="number" placeholder="Population (county/metro)">
       <input class="tin" id="mgrow" type="number" step="0.1" placeholder="Pop growth %/yr">
@@ -129,18 +140,18 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
       <input class="tin" id="minc" type="number" placeholder="Median HH income ($)">
       <input class="tin" id="mvac" type="number" step="0.1" placeholder="Market vacancy %">
     </div>
-    <label class="lbl">Major employers / demand drivers</label>
+    <input class="tin" id="msrc" placeholder="Where’s this data from? (e.g. Census 2023, CoStar Q2)" style="margin-top:8px"><div style="display:none">
+    </div>
+    <label class="lbl">Who’s moving here — and why? <span class="sub">major employers &amp; demand drivers</span></label>
     <textarea class="tin" id="mjobs" placeholder="e.g. Regional hospital (3,200 jobs), new EV plant (2026, 1,800 jobs), state university…"></textarea>
+    <button class="tmpl" id="jobsTmpl">✎ Insert a starter sentence</button>
 
-    <label class="lbl">Comparables (name · $/unit-mo or $/SF · occupancy %)</label>
+    <label class="lbl">What are similar places charging? <span class="sub">comps — name · $/unit-mo or $/SF · occupancy %</span></label>
     <div id="comps"></div>
     <button class="addc" id="addComp">＋ Add comparable</button>
 
-    <label class="lbl">Fold in your other Boundless runs (optional)</label>
-    <input class="tin" id="ppLink" placeholder="Paste a PermitPath share link…">
-    <input class="tin" id="csLink" placeholder="Paste a CapStack share link…" style="margin-top:8px">
 
-    <label class="lbl">Key risks you already see</label>
+    <label class="lbl">What could go wrong? <span class="sub">key risks you already see</span></label>
     <div class="segrow" id="riskRow"></div>
 
     <label class="lbl">Prepared by</label>
@@ -160,7 +171,7 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
   </div>
 </div>
 
-<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.0 · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
+<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.1 · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
 <div id="modal"><div id="mcard"><button class="closex" id="mClose">×</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
 <div id="toast"></div>
 
@@ -272,7 +283,7 @@ function build(){
    <div><b>${inc?fm(inc):'—'}</b><span>Median HH income</span></div>
    <div><b>${vac!=null?vac+'%':'—'}</b><span>Market vacancy</span></div></div>
    ${jobs?`<p><b>Demand drivers:</b> ${jobs}</p>`:''}
-   <p class="note">Sources: U.S. Census QuickFacts / ACS; BLS local area statistics; FRED regional series — as entered by preparer.</p>`;
+   <p class="note">Sources: U.S. Census QuickFacts / ACS; BLS local area statistics; FRED regional series — as entered by preparer.${$('msrc')&&$('msrc').value.trim()?' <b>Cited:</b> '+$('msrc').value.trim()+'.':''}</p>`;
 
   // 3 demand (Pro)
   if(S.pro){
@@ -348,6 +359,9 @@ $('shareBtn').onclick=async()=>{
     renderComps();toast('Loaded shared inputs');
   }catch(e){}
 })();
+if($('jobsTmpl'))$('jobsTmpl').onclick=()=>{const t=$('mjobs');if(!t.value.trim())t.value='The [city] trade area is anchored by [major employer] (~[X] jobs), with added demand from [new plant / hospital / university]. Local growth is driven by [reason], supporting demand for [housing / retail / etc.].';t.focus();build();};
+let _mbt;$('inputs').addEventListener('input',()=>{clearTimeout(_mbt);_mbt=setTimeout(build,250);});
+$('inputs').addEventListener('click',()=>{setTimeout(build,40);});
 proUI();build();
 </script>
 </body>
