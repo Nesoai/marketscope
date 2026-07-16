@@ -32,6 +32,28 @@ header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
 .pill.pro{background:linear-gradient(90deg,#f59e0b,#fb923c);color:#221a03;border:none;font-weight:700}
 .pill.prodone{background:rgba(52,211,153,.15);color:var(--green);border-color:rgba(52,211,153,.4)}
 .tagline{background:linear-gradient(120deg,rgba(96,165,250,.09),rgba(245,158,11,.06));border-bottom:1px solid var(--line);padding:18px 16px;text-align:center}
+/* how-it-works strip */
+.flow{display:flex;align-items:stretch;gap:0;max-width:980px;margin:14px auto 0;padding:0 16px}
+.flow .fstep{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;text-align:left;display:flex;gap:10px;align-items:flex-start;min-width:0}
+.flow .fn{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#06121f;font-weight:800;font-size:12.5px;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
+.flow .ft b{display:block;font-size:12.5px;color:var(--ink)}
+.flow .ft span{font-size:11.5px;color:var(--dim);line-height:1.45}
+.flow .farrow{align-self:center;color:var(--faint);font-size:17px;padding:0 7px;flex-shrink:0}
+@media(max-width:700px){.flow{flex-direction:column;gap:6px}.flow .farrow{transform:rotate(90deg);align-self:center;padding:0}}
+/* example deal */
+.exbtn{width:100%;border:1px dashed var(--blue);background:rgba(96,165,250,.07);color:var(--blue);border-radius:10px;padding:10px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:14px}
+.exbtn:hover{background:rgba(96,165,250,.14)}
+.exbanner{display:none;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.35);border-radius:10px;padding:9px 12px;font-size:12.5px;color:var(--dim);margin-bottom:14px}
+.exbanner b{color:var(--green)}
+/* guided tour */
+.tourhl{outline:2px solid var(--blue);outline-offset:3px;border-radius:10px;transition:outline .2s}
+#tourCard{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(140%);width:min(440px,92vw);background:var(--card);border:1px solid var(--blue);border-radius:14px;padding:15px 17px;z-index:95;box-shadow:0 18px 50px -12px rgba(0,0,0,.6);transition:transform .3s}
+#tourCard.on{transform:translateX(-50%) translateY(0)}
+#tourCard .tstep{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--blue);text-transform:uppercase}
+#tourCard .ttext{font-size:13.5px;color:var(--ink);margin:5px 0 12px;line-height:1.5}
+#tourCard .tbtns{display:flex;gap:8px;justify-content:flex-end}
+#tourCard .tbtns button{border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer}
+#tourCard .tbtns button.pri{background:var(--blue);border-color:var(--blue);color:#06121f}
 .tagline h1{font-family:Fraunces,serif;font-size:clamp(20px,3.4vw,28px)}
 .tagline h1 em{font-style:italic;color:var(--blue)}
 .tagline p{color:var(--dim);font-size:13.5px;margin:6px auto 0;max-width:78ch}
@@ -86,7 +108,7 @@ textarea.tin{min-height:64px;resize:vertical}
 #toast.on{transform:translateX(-50%) translateY(0)}
 footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
 @media print{
-  header,.tagline,#inputs,.rowbtns,.lockedsec,footer,.disc{display:none!important}
+  header,.tagline,#inputs,.rowbtns,.lockedsec,footer,.disc,.flow,#tourCard,.exbtn,.exbanner{display:none!important}
   body{background:#fff}
   #app{display:block}#out{padding:0}
   #report{box-shadow:none;border-radius:0;padding:0}
@@ -103,6 +125,7 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
 <header>
   <div id="logo"><svg width="26" height="26" viewBox="0 0 32 32"><circle cx="14" cy="14" r="8" fill="none" stroke="#60a5fa" stroke-width="2.6"/><line x1="20" y1="20" x2="26" y2="26" stroke="#f59e0b" stroke-width="3.2" stroke-linecap="round"/></svg> Market<b>Scope</b></div>
   <div class="hsp"></div>
+  <button class="pill" id="tourBtn" title="Replay the 60-second tour">&#127891; Tour</button>
   <button class="pill pro" id="proBtn">Go Pro</button>
 </header>
 
@@ -111,8 +134,18 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
   <p>Answer the questions a lender will ask — demographics, demand, comps, absorption — and MarketScope assembles a clean, structured market analysis. Paste your <a href="https://nesoai.github.io/permitpath/" target="_blank" rel="noopener">PermitPath</a> and <a href="https://nesoai.github.io/capstack/" target="_blank" rel="noopener">CapStack</a> share-links and your entitlement timeline and capital stack fold straight into the report.</p>
 </div>
 
+<div class="flow" aria-label="How MarketScope works">
+  <div class="fstep"><div class="fn">1</div><div class="ft"><b>Describe project &amp; market</b><span>Location, type, size &mdash; then the demographics a lender always asks about.</span></div></div>
+  <div class="farrow">&rarr;</div>
+  <div class="fstep"><div class="fn">2</div><div class="ft"><b>Add comps &amp; risks</b><span>Nearby comparables with rents and occupancy, plus the risk factors you already know about.</span></div></div>
+  <div class="farrow">&rarr;</div>
+  <div class="fstep"><div class="fn">3</div><div class="ft"><b>Get the analysis</b><span>A structured, lender-ready market write-up &mdash; print it, share it, or fold in PermitPath &amp; CapStack.</span></div></div>
+</div>
+
 <div id="app">
   <div id="inputs">
+    <button class="exbtn" id="exBtn">&#9654; Load an example study &mdash; see a finished analysis first</button>
+    <div class="exbanner" id="exBanner"><b>Harborview Lofts</b> &mdash; a 96-unit multifamily example in New Bedford, MA: demographics, three comps, and the risk flags filled in. Edit anything; your numbers replace it the moment you type.</div>
     <div class="import-box">
       <div class="import-h">⚡ Already used our tools?<span>Paste your PermitPath &amp; CapStack links to autofill half the report.</span></div>
       <input class="tin" id="ppLink" placeholder="Paste a PermitPath share link…">
@@ -171,9 +204,14 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
   </div>
 </div>
 
-<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.1 · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
+<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.2 · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
 <div id="modal"><div id="mcard"><button class="closex" id="mClose">×</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
 <div id="toast"></div>
+<div id="tourCard" role="dialog" aria-label="Guided tour">
+  <div class="tstep" id="tourStep"></div>
+  <div class="ttext" id="tourText"></div>
+  <div class="tbtns"><button id="tourSkip">Skip</button><button class="pri" id="tourNext">Next</button></div>
+</div>
 
 <script>
 /* ============ MARKETSCOPE v1.0 — config ============ */
@@ -214,6 +252,53 @@ $('addComp').onclick=()=>{
   if(COMPS.length>=max)return openPro(S.pro?'Ten comps is the ceiling.':'Free holds 4 comparables — Pro holds 10.');
   COMPS.push(['','','']);renderComps();
 };
+
+/* ============ EXAMPLE STUDY ============ */
+function loadExample(){
+  $('pname').value='Harborview Lofts';
+  $('ploc').value='New Bedford, Bristol County';
+  $('pstate').value='MA';
+  TYPE='mf';
+  $('typeRow').querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',x.dataset.v==='mf'));
+  $('psize').value='96 units';
+  $('ptdc').value=21500000;
+  $('mpop').value=565000; $('mgrow').value=0.6; $('minc').value=74000; $('mvac').value=4.8;
+  $('msrc').value='Census ACS 2023; local broker survey Q2 2026';
+  $('mjobs').value='Regional hospital system (4,100 jobs), offshore-wind staging port expansion (2027, ~1,200 jobs), state university satellite campus (1,900 students).';
+  COMPS=[['The Wamsutta Mills Lofts','$1,950/mo','96'],['Union Street Flats','$2,120/mo','94'],['Cove Road Apartments','$1,780/mo','97']];
+  renderComps();
+  RSEL.clear(); ['supply','rate','absorb'].forEach(k=>RSEL.add(k));
+  $('riskRow').querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',RSEL.has(x.dataset.v)));
+  $('exBanner').style.display='block';
+  build();
+  toast('Example loaded \u2014 edit anything, it\u2019s yours now');
+  try{ if(typeof gtag==='function') gtag('event','example_load',{tool:'marketscope'}); }catch(e){}
+}
+$('exBtn').onclick=loadExample;
+
+/* ============ GUIDED TOUR ============ */
+const TOUR=[
+ ['pname','Step 1 of 5','Start with the basics a lender reads first: <b>project name, location, type, and size</b>. Plain answers \u2014 no jargon needed.'],
+ ['mpop','Step 2 of 5','The <b>market snapshot</b>: population, growth, income, vacancy. Pull them from Census or a broker report \u2014 and cite the source in the box below; lenders check.'],
+ ['comps','Step 3 of 5','<b>Comparables carry the study.</b> Three nearby properties with rent and occupancy is enough to anchor demand \u2014 Pro holds ten.'],
+ ['riskRow','Step 4 of 5','Tap the <b>risk factors</b> that apply. Naming risks yourself \u2014 with mitigation \u2014 reads far stronger to a lender than hoping they don\u2019t notice.'],
+ ['exBtn','Step 5 of 5','Fastest way to learn it: <b>load the example study</b> and swap in your market. Nothing is saved anywhere but this device.']
+];
+let tourI=-1;
+function tourClear(){document.querySelectorAll('.tourhl').forEach(e=>e.classList.remove('tourhl'));}
+function tourShow(i){
+  tourClear();
+  if(i>=TOUR.length){ $('tourCard').classList.remove('on'); try{localStorage.setItem('marketscope.tour','done')}catch(e){}; return; }
+  tourI=i; const [id,st,tx]=TOUR[i];
+  const el=$(id); if(el){ el.classList.add('tourhl'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  $('tourStep').textContent=st; $('tourText').innerHTML=tx;
+  $('tourNext').textContent = i===TOUR.length-1 ? 'Done' : 'Next';
+  $('tourCard').classList.add('on');
+}
+$('tourNext').onclick=()=>tourShow(tourI+1);
+$('tourSkip').onclick=()=>tourShow(TOUR.length);
+$('tourBtn').onclick=()=>tourShow(0);
+setTimeout(()=>{ try{ if(!localStorage.getItem('marketscope.tour')) tourShow(0); }catch(e){} },1100);
 renderComps();
 
 /* ---- decode sibling-tool share links ---- */
