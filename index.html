@@ -125,6 +125,10 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
 .probarin .pb{flex:1;min-width:240px;font-size:12.5px;color:var(--dim);line-height:1.5}
 .probarin button{border:none;border-radius:999px;background:var(--blue);color:#0b1018;font-weight:700;font-size:12.5px;padding:9px 16px;cursor:pointer;font-family:inherit;white-space:nowrap}
 @media print{.probar{display:none!important}}
+#scrollTop{position:fixed;right:20px;bottom:20px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card,#161d26);color:var(--ink,#e9eef4);font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:70;box-shadow:0 6px 18px -6px rgba(0,0,0,.4);font-family:inherit;line-height:1}
+#scrollTop.on{display:flex}
+#scrollTop:hover{filter:brightness(1.12)}
+@media print{#scrollTop{display:none!important}}
 </style>
 </head>
 <body>
@@ -211,7 +215,8 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
   </div>
 </div>
 
-<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.5 &middot; <a href="https://tally.so/r/rj1Z15?source=marketscope" target="_blank" rel="noopener">Feedback</a> · © 2026 Boundless / Mallory Bailey-Finkley — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
+<button id="scrollTop" title="Back to top" aria-label="Back to top">↑</button>
+<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.6 &middot; <a href="https://tally.so/r/rj1Z15?source=marketscope" target="_blank" rel="noopener">Feedback</a> · © 2026 Boundless — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
 <div id="modal"><div id="mcard"><button class="closex" id="mClose">×</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
 <div id="toast"></div>
 <div id="tourCard" role="dialog" aria-label="Guided tour">
@@ -461,6 +466,12 @@ if($('jobsTmpl'))$('jobsTmpl').onclick=()=>{const t=$('mjobs');if(!t.value.trim(
 let _mbt;$('inputs').addEventListener('input',()=>{clearTimeout(_mbt);_mbt=setTimeout(build,250);});
 $('inputs').addEventListener('click',()=>{setTimeout(build,40);});
 proUI();build();
+
+/* scroll-to-top */
+(function(){function init(){var b=document.getElementById('scrollTop');if(!b)return;
+ window.addEventListener('scroll',function(){b.classList.toggle('on',window.scrollY>400)},{passive:true});
+ b.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};}
+ if(document.getElementById('scrollTop'))init();else document.addEventListener('DOMContentLoaded',init);})();
 </script>
 </body>
 </html>
