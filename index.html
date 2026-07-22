@@ -146,7 +146,7 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
 
 <div class="tagline">
   <h1>Lender-ready market context, <em>in minutes.</em></h1>
-  <p>Answer the questions a lender will ask — demographics, demand, comps, absorption — and MarketScope assembles a clean, structured market analysis. Paste your <a href="https://nesoai.github.io/permitpath/" target="_blank" rel="noopener">PermitPath</a> and <a href="https://nesoai.github.io/capstack/" target="_blank" rel="noopener">CapStack</a> share-links and your entitlement timeline and capital stack fold straight into the report.</p>
+  <p>Answer the questions a lender will ask — demographics, demand, comps, absorption — and MarketScope assembles a clean, structured market analysis. Paste your <a href="https://nesohq.com/" target="_blank" rel="noopener">PermitPath</a> and <a href="https://capstack.nesohq.com/" target="_blank" rel="noopener">CapStack</a> share-links and your entitlement timeline and capital stack fold straight into the report.</p>
 </div>
 
 <div class="flow" aria-label="How MarketScope works">
@@ -216,12 +216,12 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
       <button class="smallbtn" id="printBtn">🖨 Print / save as PDF ${''}</button>
       <button class="smallbtn" id="shareBtn">🔗 Share inputs</button>
     </div>
-    <p class="disc"><b>Read this:</b> MarketScope organizes user-supplied data into a lender-familiar structure. It is not an appraisal, feasibility study, or investment advice — verify every figure against its source, and expect lenders to require third-party studies for large credits. Done-for-you deep-dive research: <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless market research, $600–$2,500</a>.</p>
+    <p class="disc"><b>Read this:</b> MarketScope organizes user-supplied data into a lender-familiar structure. It is not an appraisal, feasibility study, or investment advice — verify every figure against its source, and expect lenders to require third-party studies for large credits. Done-for-you deep-dive research: <a href="https://nesohq.com/#/services" target="_blank" rel="noopener">NESO market research, $600–$2,500</a>.</p>
   </div>
 </div>
 
 <button id="scrollTop" title="Back to top" aria-label="Back to top">↑</button>
-<footer>MarketScope · a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool · v1.8 &middot; <a href="https://neso-queue.nesoai-us.workers.dev/form/feedback?source=marketscope" target="_blank" rel="noopener">Feedback</a> · © 2026 Boundless — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesoai.github.io/permitpath/">PermitPath</a> + <a href="https://nesoai.github.io/capstack/">CapStack</a>.</footer>
+<footer>MarketScope · v1.10 &middot; <a href="https://neso-queue.nesoai-us.workers.dev/form/feedback?source=marketscope" target="_blank" rel="noopener">Feedback</a> · © 2026 NESO — all rights reserved · Educational structure, user-supplied data. Works with <a href="https://nesohq.com/">PermitPath</a> + <a href="https://capstack.nesohq.com/">CapStack</a>.</footer>
 <div id="modal"><div id="mcard"><button class="closex" id="mClose">×</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
 <div id="toast"></div>
 <div id="tourCard" role="dialog" aria-label="Guided tour">
@@ -423,14 +423,14 @@ function build(){
   // 6 entitlement (Pro, from PermitPath)
   if(S.pro){
     h+=`<h3>6 · Entitlement &amp; timeline</h3>`+
-     (pp?`<p>Modeled in PermitPath for ${pp.co?pp.co+', ':''}${pp.st}${pp.j?' ('+pp.j+' jurisdiction)':''}: the sequenced gate analysis, statutory shot-clock context, and carrying-cost sensitivity accompany this report. <span class="note">Attach the PermitPath exhibit; regenerate anytime at nesoai.github.io/permitpath.</span></p>`
+     (pp?`<p>Modeled in PermitPath for ${pp.co?pp.co+', ':''}${pp.st}${pp.j?' ('+pp.j+' jurisdiction)':''}: the sequenced gate analysis, statutory shot-clock context, and carrying-cost sensitivity accompany this report. <span class="note">Attach the PermitPath exhibit; regenerate anytime at nesohq.com.</span></p>`
         :`<p class="note">Paste a PermitPath share-link in the left panel to fold the entitlement timeline into this section — or state the permitting status and expected approvals path here.</p>`);
   }else h+=lock('Entitlement & timeline','Folds your PermitPath run — gates, months, carrying cost — into the report.');
 
   // 7 capital stack (Pro, from CapStack)
   if(S.pro){
     h+=`<h3>7 · Capital stack summary</h3>`+
-     (cs?`<p>Assembled in CapStack: total development cost of ${fm(cs.tdc)}${cs.noi?' against stabilized NOI of '+fm(cs.noi)+'/yr':''}, layering ${cs.sources.length} sources (${cs.sources.join(', ')}). <span class="note">Attach the CapStack lender exhibit; regenerate at nesoai.github.io/capstack.</span></p>`
+     (cs?`<p>Assembled in CapStack: total development cost of ${fm(cs.tdc)}${cs.noi?' against stabilized NOI of '+fm(cs.noi)+'/yr':''}, layering ${cs.sources.length} sources (${cs.sources.join(', ')}). <span class="note">Attach the CapStack lender exhibit; regenerate at capstack.nesohq.com.</span></p>`
         :`<p class="note">Paste a CapStack share-link in the left panel to summarize your sources &amp; uses here — lenders read market context and capital plan together.</p>`);
   }else h+=lock('Capital stack summary','Folds your CapStack run — sources, gap status, blended cost — into the report.');
 
@@ -442,7 +442,7 @@ function build(){
   }else h+=lock('Risks & mitigants','A lender-style risk register built from the risks you flagged, each with a mitigation.');
 
   // 9 sources
-  h+=`<h3>${S.pro?'9':'5'} · Methodology &amp; sources</h3><p class="note">Structure by MarketScope (Boundless). All market figures supplied by the preparer from public sources (Census/ACS, BLS, FRED, local records) and comparable surveys; verify before submission. This document is market context, not an appraisal or feasibility study. Companion analyses: PermitPath (entitlement timeline &amp; carry) and CapStack (capital stack) — nesoai.github.io/learning-studio.</p>`;
+  h+=`<h3>${S.pro?'9':'5'} · Methodology &amp; sources</h3><p class="note">Structure by MarketScope (NESO). All market figures supplied by the preparer from public sources (Census/ACS, BLS, FRED, local records) and comparable surveys; verify before submission. This document is market context, not an appraisal or feasibility study. Companion analyses: PermitPath (entitlement timeline &amp; carry) and CapStack (capital stack) — nesohq.com/#/tools.</p>`;
 
   h+=`<div class="cta-neso"><p><b>Want the study your lender will accept?</b> NESO builds the Lender-Ready Market Study \u2014 verified demand and supply, comparables, and absorption \u2014 the analysis that sits next to the appraisal.</p><a href="${NESO_CTA}" target="_blank" rel="noopener">Have NESO build it &rarr;</a></div>`;
   $('report').innerHTML=h;
@@ -480,5 +480,15 @@ proUI();build();
  b.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};}
  if(document.getElementById('scrollTop'))init();else document.addEventListener('DOMContentLoaded',init);})();
 </script>
+
+<!-- back to top -->
+<button id="toTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<style>
+#toTop{position:fixed;left:16px;bottom:20px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 22px -8px rgba(0,0,0,.45);opacity:0;visibility:hidden;transform:translateY(10px);transition:.25s;z-index:150}
+#toTop.on{opacity:1;visibility:visible;transform:none}
+#tourCard.on~#toTop{display:none!important}
+@media print{#toTop{display:none!important}}
+</style>
+<script>(function(){var b=document.getElementById('toTop');function chk(){if(window.scrollY>500)b.classList.add('on');else b.classList.remove('on');}window.addEventListener('scroll',chk,{passive:true});chk();})();</script>
 </body>
 </html>
