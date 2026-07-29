@@ -232,7 +232,7 @@ footer{max-width:1320px;margin:0 auto;padding:0 22px 40px;color:var(--faint);fon
 
 <script>
 /* ============ MARKETSCOPE v1.0 — config ============ */
-const BUY_URL="https://nesoai.gumroad.com/l/pgctsk"; // ← swap for Gumroad when live
+const BUY_URL="https://nesohq.gumroad.com/l/pgctsk"; // ← swap for Gumroad when live
 const NESO_CTA="https://neso-queue.nesoai-us.workers.dev/form/intake?track=re&services="+encodeURIComponent("Lender-Ready Market Study (Standard)")+"&credits=12&source=marketscope";
 const PRICE_TXT="$19 one-time";
 
@@ -350,7 +350,7 @@ function openPro(msg){
      <li>10 comparables (free: 4)</li></ul>
    <a class="lockbtn" href="${BUY_URL}" target="_blank" rel="noopener">Request Pro — ${PRICE_TXT} →</a>
    <div style="display:flex;gap:8px;margin-top:14px"><input class="tin" id="codeIn" placeholder="MKT-XXXX-XXXX" style="flex:1">
-   <button class="lockbtn" id="applyCode" style="background:var(--green);color:#04211a;margin:0">Apply</button></div>`);
+   <button class="lockbtn" id="applyCode" style="background:var(--green);color:#04211a;margin:0">Apply</button></div><div style="font-size:12px;color:var(--dim);line-height:1.55;margin-top:12px">Your single-use code is emailed by a NESO principal &mdash; usually the same business day, and always within one business day. If it has not arrived, text (901)&nbsp;295-0322 and we will send it immediately.</div>`);
   $('applyCode').onclick=async()=>{const b=$('applyCode');b.disabled=true;b.textContent='\u2026';const r=await redeemCode($('codeIn').value);b.disabled=false;b.textContent='Apply';if(r.ok){S.pro=true;save();proUI();$('modal').classList.remove('on');toast('\ud83c\udf89 Pro unlocked');renderComps();build();}else toast(r.msg);};
 }
 function proUI(){const _pb=document.getElementById("probar");if(_pb)_pb.style.display=S.pro?"none":"";$('proBtn').textContent=S.pro?'✓ Pro':'Go Pro';$('proBtn').className='pill '+(S.pro?'prodone':'pro');}
