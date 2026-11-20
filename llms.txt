@@ -1,0 +1,35 @@
+# MarketScope
+
+> MarketScope turns your project inputs into a structured, lender-ready market analysis — demographics, demand, comps, absorption — and folds in your CapStack capital stack with one pasted link.
+
+MarketScope is a free web tool at https://marketscope.nesohq.com/. It runs in the browser with no account.
+It is for developers and sponsors who need market context for a lender.
+
+## Questions MarketScope answers
+
+- **What does a lender-ready market study include?** Trade-area definition, demographics and growth, demand derivation, a comparable set with rents or prices, absorption, and a stated conclusion about depth of demand.
+- **What is absorption and how is it calculated?** Absorption is the rate at which units or space are taken up by the market, usually expressed per month.
+- **How many comparables does a market study need?** Enough to establish a range rather than a point — commonly six to ten genuinely competitive properties, chosen for overlap in tenant, price band and location rather than convenience.
+- **Do I need an appraisal or a market study?** They answer different questions.
+
+## Use it
+
+- [Open MarketScope](https://marketscope.nesohq.com/)
+
+## About NESO
+
+MarketScope is made by NESO HQ LLC, which offers advisory services, research reports and free tools for founders,
+small businesses, developers and municipalities: https://nesohq.com/ (its llms.txt: https://nesohq.com/llms.txt).
+Questions: hello@nesohq.com · (901) 295-0322.
+
+## Other free NESO tools
+
+- [GrantFit](https://grantfit.nesohq.com/)
+- [MarketFit](https://marketfit.nesohq.com/)
+- [PlanForge](https://planforge.nesohq.com/)
+- [CapStack](https://capstack.nesohq.com/)
+- [ProForma](https://proforma.nesohq.com/)
+- [SiteShaper](https://siteshaper.nesohq.com/)
+- [BuildBrief](https://buildbrief.nesohq.com/)
+- [Bird's Eye instant read](https://birdseye.nesohq.com/): a free first look at a parcel, with written reports quoted to scope.
+- [NESO for Contractors](https://contractors.nesohq.com/): free public bids and state-by-state guides for contractors.
